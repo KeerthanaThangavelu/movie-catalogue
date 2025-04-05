@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Movie Catalogue</title>
+    <style>
+        .movie-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .movie-card {
+            flex: 1 0 18%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+        }
+        .movie-card img {
+            width: 100%;
+            max-width: 150px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Trending Movies</h1>
+<div class="movie-grid">
+    <div class="movie-card" th:each="movie : ${movies}">
+        <h3 th:text="${movie.title}"></h3>
+        <img th:src="'https://image.tmdb.org/t/p/w500' + ${movie.posterPath}">
+        <p>
+            <a th:href="@{'/movie/' + ${movie.movieId}}">View Details</a>
+        </p>
+        <form action="/favorite" method="post">
+            <input type="hidden" name="title" th:value="${movie.title}">
+            <input type="hidden" name="description" th:value="${movie.description}">
+            <input type="hidden" name="posterPath" th:value="${movie.posterPath}">
+            <input type="hidden" name="releaseDate" th:value="${movie.releaseDate}">
+            <input type="hidden" name="rating" th:value="${movie.rating}">
+            <input type="hidden" name="movieId" th:value="${movie.movieId}">
+            <button class="button" type="submit">Add to Favorites</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

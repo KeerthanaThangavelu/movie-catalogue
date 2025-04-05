@@ -1,0 +1,22 @@
+server:
+  port: 9017
+spring:
+  datasource:
+    url: jdbc:h2:mem:movie_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+
+tmdb:
+  api-key: e0e5c1fa525994b48645a601be5960d8
+  base-url: https://api.themoviedb.org/3/movie

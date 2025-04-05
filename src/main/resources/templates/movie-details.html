@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${movie.title}">Movie Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        img {
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<h1 th:text="${movie.title}">Movie Title</h1>
+<img th:src="'https://image.tmdb.org/t/p/w500' + ${movie.posterPath}" alt="Poster">
+<p><strong>Description:</strong></p>
+<p th:text="${movie.description}"></p>
+
+<form action="#"
+      th:action="${isFavorite ? '/remove-favorite/movie' : '/favorite'}"
+      method="post">
+    <input type="hidden" name="title" th:value="${movie.title}">
+    <input type="hidden" name="description" th:value="${movie.description}">
+    <input type="hidden" name="posterPath" th:value="${movie.posterPath}">
+    <input type="hidden" name="releaseDate" th:value="${movie.releaseDate}">
+    <input type="hidden" name="rating" th:value="${movie.rating}">
+    <input type="hidden" name="movieId" th:value="${movie.movieId}">
+    <button type="submit" class="button" th:text="${isFavorite} ? 'Remove from Favorites' : 'Add to Favorites'"></button>
+</form>
+
+<a href="/" class="back-link button">Back to Movie List</a>
+
+</body>
+</html>
