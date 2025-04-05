@@ -32,10 +32,36 @@
         .button:hover {
             background-color: #0056b3;
         }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
 <h1>Trending Movies</h1>
+
+<div class="search-container">
+    <form action="/" method="get">
+        <input class="search-input" type="text" name="query" placeholder="Search movie..." th:value="${query}">
+        <button class="button search-button" type="submit">Search</button>
+    </form>
+</div>
+
+<br/>
 <div class="movie-grid">
     <div class="movie-card" th:each="movie : ${movies}">
         <h3 th:text="${movie.title}"></h3>

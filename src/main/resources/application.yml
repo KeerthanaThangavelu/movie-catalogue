@@ -19,4 +19,4 @@ spring:
 
 tmdb:
   api-key: e0e5c1fa525994b48645a601be5960d8
-  base-url: https://api.themoviedb.org/3/movie
+  base-url: https://api.themoviedb.org/3

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class MovieController {
 
@@ -14,8 +17,15 @@ public class MovieController {
     private MovieService movieService;
 
     @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("movies", movieService.getTrendingMovies());
+    public String index(@RequestParam(value = "query", required = false) String query, Model model) {
+        List<Movie> movies;
+        if(query != null && !query.trim().isEmpty()){
+            movies = movieService.searchMovies(query);
+            model.addAttribute("query", query);
+        } else {
+            movies = movieService.getTrendingMovies();
+        }
+        model.addAttribute("movies", movies);
         return "index";
     }
 

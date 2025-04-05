@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +24,6 @@ public class MovieService {
     @Value("${tmdb.base-url}")
     private String baseUrl;
 
-    //private static final String TMDB_API_KEY = "e0e5c1fa525994b48645a601be5960d8"; // Replace with your TMDb API Key
-    //private static final String TMDB_URL = "https://api.themoviedb.org/3/movie/popular?api_key=" + TMDB_API_KEY;
 
     @Autowired
     private MovieRepository movieRepository;
@@ -31,7 +31,17 @@ public class MovieService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     public List<Movie> getTrendingMovies() {
-        JsonNode forObject = restTemplate.getForObject(baseUrl + "/popular?api_key=" + apiKey, JsonNode.class);
+        String url = baseUrl + "/movie/popular?api_key=" + apiKey;
+        return getMovieList(url);
+    }
+
+    public List<Movie> searchMovies(String query){
+        String url = baseUrl + "/search/movie?api_key=" + apiKey + "&query=" + UriUtils.encode(query, StandardCharsets.UTF_8);
+        return getMovieList(url);
+    }
+
+    private List<Movie> getMovieList(String url) {
+        JsonNode forObject = restTemplate.getForObject(url, JsonNode.class);
         List<Movie> movies = new ArrayList<>();
         ArrayNode results = (ArrayNode) forObject.get("results");
 
@@ -50,7 +60,7 @@ public class MovieService {
     }
 
     public Movie getMovieById(Long id) {
-        String url =  baseUrl + "/" + id + "?api_key=" + apiKey;
+        String url =  baseUrl + "/movie/" + id + "?api_key=" + apiKey;
         JsonNode node = restTemplate.getForObject(url, JsonNode.class);
         Movie movie = new Movie();
         movie.setMovieId(id);
